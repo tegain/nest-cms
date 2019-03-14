@@ -1,3 +1,10 @@
+# IDE & Node modules
+
 node_modules
 .idea
 .vscode
+
+# Env
+
+.env
+.env.development
