@@ -22,12 +22,11 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async updateOneById (@Param('id') id, @Body() updates: object) {
+  async updateOneById (@Param('id') id: string, @Body() updates: object): Promise<UserInterface> {
     /** Validate Request user ID */
     if (!ObjectId.isValid(id)) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
-
     return await this.userService.updateOneById(id, updates);
   }
 

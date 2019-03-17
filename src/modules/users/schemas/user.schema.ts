@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
 import * as uniqueValidator from 'mongoose-unique-validator';
-import { UserRoles } from '../interfaces/user.interface';
 
 export const UserSchema = new mongoose.Schema({
   username: {
@@ -26,10 +25,9 @@ export const UserSchema = new mongoose.Schema({
     trim: true,
     minlength: [8, `Password must contain at least 8 characters`],
   },
-  role: {
-    type: String,
-    default: UserRoles.USER,
-    enum: [UserRoles.ADMIN, UserRoles.USER],
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
   firstName: {
     type: String,
