@@ -25,9 +25,9 @@ export const PostSchema = new Schema({
     trim: true,
   },
   publishedAt: {
-    type: Number,
+    type: Date,
     trim: true,
-    default: new Date().getTime(),
+    default: new Date(),
   },
   status: {
     type: String,
@@ -45,5 +45,9 @@ export const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
+  },
+  commentsEnabled: {
+    type: Boolean,
+    default: true,
   },
 });

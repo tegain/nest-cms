@@ -10,6 +10,7 @@ export interface PostInterface extends Document {
   status: PostStatus;
   visibility: PostVisibility;
   author: UserInterface;
+  commentsEnabled: boolean;
 }
 
 export enum PostStatus {
