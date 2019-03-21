@@ -1,0 +1,43 @@
+/**
+ * ----------------------------------
+ * BREAKPOINTS
+ * ----------------------------------
+ */
+
+@mixin breakpoint($point) {
+  @if $point == small {
+    @media (max-width: 479px) { @content; }
+  }
+
+  @else if $point == mobile {
+    @media (max-width: 767px) { @content; }
+  }
+
+  @else if $point == tablet__min {
+    @media (min-width: 768px) { @content; }
+  }
+
+  @else if $point == tablet {
+    @media (min-width: 768px) and (max-width: 1023px) { @content; }
+  }
+
+  @else if $point == tablet__max {
+    @media (max-width: 1023px) { @content; }
+  }
+
+  @else if $point == desktop__min {
+    @media (min-width: 1024px) { @content; }
+  }
+
+  @else if $point == desktopLarge__min {
+    @media (min-width: 1296px) { @content; }
+  }
+
+  @else if $point == desktopXLarge__min {
+    @media (min-width: 1440px) { @content; }
+  }
+
+  @else if $point == desktopXXLarge__min {
+    @media (min-width: 1800px) { @content; }
+  }
+}
