@@ -39,7 +39,11 @@ export class PostsService {
   }
 
   async findAll (): Promise<PostInterface[]> {
-    return await this.postModel.find().exec();
+    return await this.postModel.find().sort({ publishedAt: -1 }).exec();
+  }
+
+  async findOne (id: string | ObjectId): Promise<PostInterface> {
+    return await this.postModel.findOne({ _id: id }).exec();
   }
 
   async updateOneById (id: string | ObjectId, updates: object): Promise<PostInterface> {
@@ -52,5 +56,9 @@ export class PostsService {
         context: 'query',
       },
     ).exec();
+  }
+
+  async deleteOne (id: string | ObjectId): Promise<PostInterface> {
+    return await this.postModel.findOneAndDelete({ _id: id }).exec();
   }
 }

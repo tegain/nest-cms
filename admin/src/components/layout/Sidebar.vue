@@ -19,7 +19,7 @@
           </template>
 
           <MenuItem index="posts" class="tgn-Menu__item">
-            <RouterLink :to="{ name: 'posts' }" class="tgn-Menu__link" :exact-active-class="linkExactActiveClass" :active-class="linkActiveClass">
+            <RouterLink :to="{ name: 'posts' }" class="tgn-Menu__link" exact :exact-active-class="linkExactActiveClass" :active-class="linkActiveClass">
               <i class="tgn-Menu__icon"></i>
               <span class="tgn-Menu__label">All posts</span>
             </RouterLink>
@@ -31,12 +31,40 @@
               <span class="tgn-Menu__label">Create new post</span>
             </RouterLink>
           </MenuItem>
+
+          <MenuItem index="posts1" class="tgn-Menu__item">
+            <RouterLink :to="{ name: 'posts-categories' }" exact class="tgn-Menu__link" :exact-active-class="linkExactActiveClass" :active-class="linkActiveClass">
+              <i class="tgn-Menu__icon"></i>
+              <span class="tgn-Menu__label">Categories</span>
+            </RouterLink>
+          </MenuItem>
         </Submenu>
 
         <MenuItem index="pages" class="tgn-Menu__item">
-          <RouterLink to="/admin" exact class="tgn-Menu__link tgn-Menu__link--main" :exact-active-class="linkExactActiveClass" :active-class="linkActiveClass">
+          <RouterLink :to="{ name: 'pages' }" exact class="tgn-Menu__link tgn-Menu__link--main" :exact-active-class="linkExactActiveClass" :active-class="linkActiveClass">
             <i class="tgn-Menu__icon el-icon-f-file-text"></i>
             <span class="tgn-Menu__label">Pages</span>
+          </RouterLink>
+        </MenuItem>
+
+        <MenuItem index="contact" class="tgn-Menu__item">
+          <RouterLink :to="{ name: 'mail' }" exact class="tgn-Menu__link tgn-Menu__link--main" :exact-active-class="linkExactActiveClass" :active-class="linkActiveClass">
+            <i class="tgn-Menu__icon el-icon-f-mail"></i>
+            <span class="tgn-Menu__label">Mail</span>
+          </RouterLink>
+        </MenuItem>
+
+        <MenuItem index="tasks" class="tgn-Menu__item">
+          <RouterLink :to="{ name: 'tasks' }" exact class="tgn-Menu__link tgn-Menu__link--main" :exact-active-class="linkExactActiveClass" :active-class="linkActiveClass">
+            <i class="tgn-Menu__icon el-icon-f-list"></i>
+            <span class="tgn-Menu__label">Tasks</span>
+          </RouterLink>
+        </MenuItem>
+
+        <MenuItem index="parameters" class="tgn-Menu__item">
+          <RouterLink :to="{ name: 'parameters' }" exact class="tgn-Menu__link tgn-Menu__link--main" :exact-active-class="linkExactActiveClass" :active-class="linkActiveClass">
+            <i class="tgn-Menu__icon el-icon-f-settings"></i>
+            <span class="tgn-Menu__label">Parameters</span>
           </RouterLink>
         </MenuItem>
       </div>

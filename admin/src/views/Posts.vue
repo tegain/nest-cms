@@ -113,6 +113,7 @@
   import { Table, TableColumn, Tooltip } from 'element-ui';
   import { PostInterface } from '@/core/models/PostInterface';
   import AppContent from '@/components/layout/Content.vue';
+  import { HttpService } from '@/core/services/http.service';
 
   @Component({
     components: {
@@ -125,28 +126,23 @@
   export default class Posts extends Vue {
     private search: string = '';
 
-    private readonly posts: PostInterface[] = [
-      {
-        publishedAt: '2019-03-16T18:51:43.005Z',
-        status: 'published',
-        visibility: 'public',
-        _id: '5c8d45f23a69b52cad5bc61d',
-        title: 'Lorem ipsum dolor sit amet',
-        slug: 'lorem-ipsum-dolor-sit-amet',
-        content: 'Lorem ipsum dolor',
-        author: '5c8a9a220be58d0c8b4849bd',
-      },
-      {
-        publishedAt: '2019-03-17T21:59:16.069Z',
-        status: 'published',
-        visibility: 'public',
-        _id: '5c8d45f23a69b52cad5bc413',
-        title: 'Dolor sit amet consectetur',
-        slug: 'dolor-sit-amet-consectetur',
-        content: 'Lorem ipsum dolor',
-        author: '5c8a9a220be58d0c8b4849bd',
-      },
-    ];
+    private posts: PostInterface[] = [];
+
+    private handleEdit (index: any, row: any): void {
+      // console.log(index)
+      // console.log(row)
+      this.$router.push({ name: 'edit-post', params: { id: row._id } });
+    }
+
+    private async handleDelete (index: any, row: any): void {
+      const response = await HttpService.delete(`/posts/${row._id}`);
+      const updatedPosts = this.posts.filter(p => p._id !== response._id);
+      this.posts = updatedPosts;
+    }
+
+    async created (): void {
+      this.posts = await HttpService.get('/posts');
+    }
   }
 </script>
 

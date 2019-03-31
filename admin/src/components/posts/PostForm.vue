@@ -74,9 +74,20 @@
             <ElButton
               type="primary"
               icon="el-icon-plus"
+              :loading="isButtonLoading"
               @click="onSubmit"
             >
               Save post
+            </ElButton>
+
+            <ElButton
+              type="danger"
+              size="mini"
+              icon="el-icon-delete"
+              :loading="isButtonLoading"
+              @click="onDeletePost"
+            >
+              Delete post
             </ElButton>
           </FormItem>
         </ElCard>
@@ -86,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor';
 import {
   Autocomplete, Checkbox, DatePicker, Form, FormItem,
@@ -94,6 +105,7 @@ import {
 } from 'element-ui';
 import { PostInterface, PostVisibility, PostStatus } from '@/core/models/PostInterface';
 import { slugify } from '@/core/utils/slugify';
+import { HttpService } from '@/core/services/http.service';
 
 @Component({
   components: {
@@ -112,6 +124,11 @@ import { slugify } from '@/core/utils/slugify';
   },
 })
 export default class PostForm extends Vue {
+  @Prop({ type: Object, default: null }) post: PostInterface;
+  @Prop({ type: Boolean, default: false }) isEditing: boolean;
+
+  private isButtonLoading: boolean = false;
+
   private form: PostInterface = {
     title: '',
     slug: '',
@@ -166,23 +183,57 @@ export default class PostForm extends Vue {
     };
   }
 
-  public generateSlug(): void {
+  generateSlug(): void {
     this.form.slug = slugify(this.form.title);
   }
 
-  public setDefaultSlug(): void {
+  setDefaultSlug(): void {
     if (!this.form.slug) {
       this.form.slug = slugify(this.form.title);
     }
   }
 
-  public onSubmit(): void {
+  async updatePost (): Promise<any> {
+    const response = await HttpService.patch(`/posts/${this.post._id}`, {
+      body: JSON.stringify(this.form)
+    });
+    this.isButtonLoading = false;
+    return response;
+  }
+
+  async createPost (): Promise<any> {
+    const response = await HttpService.post('/posts', {
+      body: JSON.stringify(this.form)
+    });
+    this.isButtonLoading = false;
+    return response;
+  }
+
+  async onSubmit(): void {
     this.setDefaultSlug();
 
     (this.$refs.form as any).validate((valid: boolean, fields: object) => {
       // console.log('validated', valid, fields);
+      this.isButtonLoading = true;
+
+      if (this.isEditing) {
+        this.updatePost();
+
+      } else {
+        this.createPost();
+      }
     });
-    // console.log('submit!');
+  }
+
+  async onDeletePost (): void {
+    await HttpService.delete(`/posts/${this.post._id}`);
+    this.$router.push({ name: 'posts' });
+  }
+
+  mounted (): void {
+    if (this.post) {
+      this.form = { ...this.post }
+    }
   }
 }
 </script>
